@@ -1,0 +1,5 @@
+string = "lol"
+
+
+
+print string
