@@ -8,6 +8,7 @@
 
 # include "../langage/langage.h"
 
+# include "translate_errors.h"
 # include "read_source.h"
 
 # define READING_BUF_SIZE 1024

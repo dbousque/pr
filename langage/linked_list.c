@@ -12,6 +12,7 @@ t_linked_list	*new_list_start_size(long start_size)
 		malloc_error();
 	res->size = start_size;
 	res->len = 0;
+	return (res);
 }
 
 t_linked_list	*new_list(void)

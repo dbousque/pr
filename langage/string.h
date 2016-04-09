@@ -17,5 +17,6 @@ t_string		*new_string(void);
 t_string		*new_string_of_size(long size);
 void			set_string_chars(t_string *string, char *chars, long len);
 t_string		*new_void_string(void);
+t_string		*new_string_from_chars(char *str, long len);
 
 #endif

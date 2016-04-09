@@ -19,5 +19,6 @@ typedef struct	s_linked_list t_linked_list;
 # include "linked_list.h"
 # include "errors.h"
 # include "print.h"
+# include "chars_utils.h"
 
 #endif

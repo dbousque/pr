@@ -43,6 +43,16 @@ t_string	*new_string_of_size(long size)
 	return (res);
 }
 
+t_string	*new_string_from_chars(char *str, long len)
+{
+	t_string	*res;
+
+	res = new_void_string();
+	res->freeable = 0;
+	set_string_chars(res, str, len);
+	return (res);
+}
+
 void	set_string_chars(t_string *string, char *chars, long len)
 {
 	string->chars = chars;

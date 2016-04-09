@@ -18,6 +18,8 @@ static void	double_string_size(t_string *str)
 	}
 	if (str->freeable)
 		free(str->chars);
+	else
+		str->freeable = 1;
 	str->chars = new_chars;
 }
 
@@ -91,7 +93,7 @@ static void		get_splitted_start_indexes(t_string *string, t_linked_list *indexes
 	}
 }
 
-// This could be done faster, no need the to get the indexes first,
+// This could be done faster, no need to get the indexes first,
 // since it uses a linked_list too, so it is not faster to fetch the indexes first
 t_linked_list	*split_string(t_string *string, char to_split)
 {
@@ -134,3 +136,41 @@ t_linked_list	*split_string(t_string *string, char to_split)
 	free_list(indexes);
 	return (res);
 }
+
+void	replace_subpart(t_string *string, long start, long end, char *to_add, long to_add_len)
+{
+	long	i;
+	long	x;
+
+	while (string->size - string->len + (end - start) < to_add_len)
+		double_string_size(string);
+	if (to_add_len != end - start)
+	{
+		x = to_add_len - (end - start);
+		if (x > 0)
+		{
+			i = string->len - 1;
+			while (i >= end)
+			{
+				string->chars[i + x] = string->chars[i];
+				i--;
+			}
+		}
+		else
+		{
+			i = start + to_add_len;
+			while (i < string->len)
+			{
+				string->chars[i + x] = string->chars[i];
+				i++;
+			}
+		}
+	}
+	i = start;
+	while (i < end)
+	{
+		string->chars[i] = to_add[i - start];
+		i++;
+	}
+}
+

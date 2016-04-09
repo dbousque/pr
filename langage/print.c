@@ -2,16 +2,6 @@
 
 #include "print.h"
 
-long	ft_strlen(char *str)
-{
-	long	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 void	print_raw_chars(char *str)
 {
 	write(1, str, ft_strlen(str));
