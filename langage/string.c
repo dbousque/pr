@@ -2,6 +2,13 @@
 
 #include "string.h"
 
+t_variable	*_new_void_string(void)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = new_void_string();
+	return (res_var);
+}
+
 t_string	*new_void_string(void)
 {
 	t_string	*res;
@@ -12,6 +19,14 @@ t_string	*new_void_string(void)
 	res->size = 0;
 	res->freeable = 1;
 	return (res);
+}
+
+
+t_variable	*_new_string(void)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = new_string();
+	return (res_var);
 }
 
 t_string	*new_string(void)
@@ -26,6 +41,14 @@ t_string	*new_string(void)
 	res->len = 0;
 	res->freeable = 1;
 	return (res);
+}
+
+
+t_variable	*_new_string_of_size(long size)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = new_string_of_size(size);
+	return (res_var);
 }
 
 t_string	*new_string_of_size(long size)
@@ -43,6 +66,14 @@ t_string	*new_string_of_size(long size)
 	return (res);
 }
 
+
+t_variable	*_new_string_from_chars(char *str, long len)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = new_string_from_chars(str, len);
+	return (res_var);
+}
+
 t_string	*new_string_from_chars(char *str, long len)
 {
 	t_string	*res;
@@ -53,11 +84,25 @@ t_string	*new_string_from_chars(char *str, long len)
 	return (res);
 }
 
+
+void	_set_string_chars(t_string *string, char *chars, long len)
+{
+	set_string_chars(string, chars, len);
+}
+
 void	set_string_chars(t_string *string, char *chars, long len)
 {
 	string->chars = chars;
 	string->len = len;
 	string->size = len;
+}
+
+
+t_variable	*_cpy_string(t_string *string)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = cpy_string(string);
+	return (res_var);
 }
 
 t_string	*cpy_string(t_string *string)

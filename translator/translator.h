@@ -8,6 +8,7 @@
 
 # include "../langage/langage.h"
 
+# include "patterns.h"
 # include "translate_errors.h"
 # include "read_source.h"
 

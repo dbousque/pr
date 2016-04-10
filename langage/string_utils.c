@@ -2,6 +2,7 @@
 
 #include "string_utils.h"
 
+
 static void	double_string_size(t_string *str)
 {
 	char	*new_chars;
@@ -23,6 +24,12 @@ static void	double_string_size(t_string *str)
 	str->chars = new_chars;
 }
 
+
+void	_concat_strings(t_variable *str1, t_variable *str2)
+{
+	concat_strings(str1->val, str2->val);
+}
+
 void	concat_strings(t_string *str1, t_string *str2)
 {
 	long	i;
@@ -30,7 +37,7 @@ void	concat_strings(t_string *str1, t_string *str2)
 
 	while (str1->size < str1->len + str2->len)
 		double_string_size(str1);
-	i = str1->len;
+	i = 0;
 	start = str1->len;
 	while (i < str2->len)
 	{
@@ -39,6 +46,14 @@ void	concat_strings(t_string *str1, t_string *str2)
 		start++;
 	}
 	str1->len = start;
+}
+
+
+t_variable	*_add_strings(t_variable *str1, t_variable *str2)
+{
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = add_strings(str1->val, str2->val);
+	return (res_var);
 }
 
 t_string	*add_strings(t_string *str1, t_string *str2)
@@ -66,6 +81,30 @@ t_string	*add_strings(t_string *str1, t_string *str2)
 	return (res);
 }
 
+
+t_variable	*_get_substring(t_variable *str, t_variable *start, t_variable *end)
+{
+	long	_start = (start->type == INT ? *((int*)start->val) : *((long*)start->val));
+	long	_end = (end->type == INT ? *((int*)end->val) : *((long*)end->val));
+	t_variable	*res_var = new_var(STRING);
+	res_var->val = get_substring(str->val, _start, _end);
+	return (res_var);
+}
+
+t_string	*get_substring(t_string *str, long start, long end)
+{
+	t_string	*res;
+
+	if (!(res = (t_string*)malloc(sizeof(t_string))))
+		malloc_error();
+	res->chars = str->chars + start;
+	res->len = end - start;
+	res->size = end - start;
+	res->freeable = 0;
+	return (res);
+}
+
+
 static void		get_splitted_start_indexes(t_string *string, t_linked_list *indexes, long i, char to_split)
 {
 	long			*tmp_ind;
@@ -91,6 +130,14 @@ static void		get_splitted_start_indexes(t_string *string, t_linked_list *indexes
 		}
 		i++;
 	}
+}
+
+
+t_variable	*_split_string(t_variable *string, t_variable *to_split)
+{
+	t_variable	*res_var = new_var(LINKED_LIST);
+	res_var->val = split_string(string->val, *((char*)to_split->val));
+	return (res_var);
 }
 
 // This could be done faster, no need to get the indexes first,
@@ -137,6 +184,14 @@ t_linked_list	*split_string(t_string *string, char to_split)
 	return (res);
 }
 
+
+void	_replace_subpart(t_variable *string, t_variable *start, t_variable *end, t_variable *to_add)
+{
+	long	_start = (start->type == INT ? *((int*)start->val) : *((long*)start->val));
+	long	_end = (end->type == INT ? *((int*)end->val) : *((long*)end->val));
+	replace_subpart(string->val, _start, _end, ((t_string*)to_add->val)->chars, ((t_string*)to_add->val)->len);
+}
+
 void	replace_subpart(t_string *string, long start, long end, char *to_add, long to_add_len)
 {
 	long	i;
@@ -174,3 +229,34 @@ void	replace_subpart(t_string *string, long start, long end, char *to_add, long 
 	}
 }
 
+
+
+// Estimate boolean values of variables with a is_true(var) function
+// ex :   if (is_true(_char_in_string()))
+// and    char   is_true(t_variable *var)
+//		  {
+//			if (var->type == CHAR) return *((char*)var->val) != 0;
+//		  }
+
+t_variable	*_char_in_string(t_variable *c, t_variable *str)
+{
+	t_variable	*res = new_var(CHAR);
+	if (!(*res->val = (char*)malloc(sizeof(char))))
+		malloc_error();
+	*res->val = char_in_string(*((char*)c->val), ((t_string*)str->val)->chars, ((t_string*)str->val)->len);
+	return (res_var);
+}
+
+char	char_in_string(char c, char *str, long str_len)
+{
+	long	i;
+
+	i = 0;
+	while (i < str_len)
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}

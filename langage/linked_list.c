@@ -2,6 +2,15 @@
 
 #include "linked_list.h"
 
+
+t_variable	*_new_list_start_size(t_variable *start_size)
+{
+	long	_start_size = (start_size->type == INT ? *((int*)start_size->val) : *((long*)start_size->val));
+	t_variable	*res_var = new_var(LINKED_LIST);
+	res_var->val = new_list_start_size(_start_size);
+	return (res_var);
+}
+
 t_linked_list	*new_list_start_size(long start_size)
 {
 	t_linked_list	*res;
@@ -15,10 +24,19 @@ t_linked_list	*new_list_start_size(long start_size)
 	return (res);
 }
 
+
+t_variable	*_new_list(void)
+{
+	t_variable	*res_var = new_var(LINKED_LIST);
+	res_var->val = new_list();
+	return (res_var);
+}
+
 t_linked_list	*new_list(void)
 {
 	return (new_list_start_size(LINKED_LIST_START_SIZE));
 }
+
 
 static void	double_list_size(t_linked_list *list)
 {
@@ -38,12 +56,26 @@ static void	double_list_size(t_linked_list *list)
 	list->elts = new_elts;
 }
 
+
+void	_add_to_list(t_variable *list, t_variable *new_elt)
+{
+	add_to_list(list->val, new_elt);
+}
+
 void	add_to_list(t_linked_list *list, void *new_elt)
 {
 	if (list->len == list->size)
 		double_list_size(list);
 	list->elts[list->len] = new_elt;
 	list->len++;
+}
+
+
+t_variable	*_cpy_list(t_variable *list)
+{
+	t_variable	*res_var = new_var(LINKED_LIST);
+	res_var->val = cpy_list(list->val);
+	return (res_var);
 }
 
 t_linked_list	*cpy_list(t_linked_list *list)
@@ -62,6 +94,12 @@ t_linked_list	*cpy_list(t_linked_list *list)
 		res->len++;
 	}
 	return (res);
+}
+
+
+void	_free_list(t_variable *list)
+{
+	free_list(list->val);
 }
 
 void	free_list(t_linked_list *list)

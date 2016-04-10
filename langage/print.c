@@ -2,6 +2,12 @@
 
 #include "print.h"
 
+void	print(t_variable *var)
+{
+	if (var->type == STRING)
+		print_string(var->val);
+}
+
 void	print_raw_chars(char *str)
 {
 	write(1, str, ft_strlen(str));
@@ -18,7 +24,7 @@ void	print_raw(t_string *string)
 	write(1, string->chars, string->len);
 }
 
-void	print(t_string *string)
+void	print_string(t_string *string)
 {
 	print_raw(string);
 	write(1, "\n", 1);

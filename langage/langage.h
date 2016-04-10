@@ -14,6 +14,8 @@ typedef struct	s_linked_list t_linked_list;
 # include <fcntl.h>
 # include <sys/stat.h>
 
+# include "patterns.h"
+# include "variable.h"
 # include "string.h"
 # include "string_utils.h"
 # include "linked_list.h"
