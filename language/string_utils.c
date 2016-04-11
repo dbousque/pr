@@ -25,9 +25,47 @@ static void	double_string_size(t_string *str)
 }
 
 
+static void	bigger_string_size_at_least(t_string *str, long at_least)
+{
+	char	*new_chars;
+	long	i;
+
+	str->size = (str->size > 0 ? str->size * 2 : 1 + NEW_STRING_EXTRA_CHARS);
+	while (str->size < at_least)
+		str->size *= 2;
+	if (!(new_chars = (char*)malloc(sizeof(char) * (str->size))))
+		malloc_error();
+	i = 0;
+	while (i < str->len)
+	{
+		new_chars[i] = str->chars[i];
+		i++;
+	}
+	if (str->freeable)
+		free(str->chars);
+	else
+		str->freeable = 1;
+	str->chars = new_chars;
+}
+
+
+void	add_char_to_string(t_string *str1, char c)
+{
+	if (str1->len == str1->size)
+		double_string_size(str1);
+	str1->chars[str1->len] = c;
+	str1->len++;
+}
+
+
 void	_concat_strings(t_variable *str1, t_variable *str2)
 {
-	concat_strings(str1->val, str2->val);
+	if (str2->type == CHAR)
+		add_char_to_string(str1->val, *((char*)str2->val));
+	else if (((t_string*)str2->val)->len == 1)
+		add_char_to_string(str1->val, ((t_string*)str2->val)->chars[0]);
+	else
+		concat_strings(str1->val, str2->val);
 }
 
 void	concat_strings(t_string *str1, t_string *str2)
@@ -35,8 +73,7 @@ void	concat_strings(t_string *str1, t_string *str2)
 	long	i;
 	long	start;
 
-	while (str1->size < str1->len + str2->len)
-		double_string_size(str1);
+	bigger_string_size_at_least(str1, str1->len + str2->len);
 	i = 0;
 	start = str1->len;
 	while (i < str2->len)
@@ -197,8 +234,7 @@ void	replace_subpart(t_string *string, long start, long end, char *to_add, long 
 	long	i;
 	long	x;
 
-	while (string->size - string->len + (end - start) < to_add_len)
-		double_string_size(string);
+	bigger_string_size_at_least(string, string->len - (end - start) + to_add_len);
 	if (to_add_len != end - start)
 	{
 		x = to_add_len - (end - start);
@@ -227,36 +263,4 @@ void	replace_subpart(t_string *string, long start, long end, char *to_add, long 
 		string->chars[i] = to_add[i - start];
 		i++;
 	}
-}
-
-
-
-// Estimate boolean values of variables with a is_true(var) function
-// ex :   if (is_true(_char_in_string()))
-// and    char   is_true(t_variable *var)
-//		  {
-//			if (var->type == CHAR) return *((char*)var->val) != 0;
-//		  }
-
-t_variable	*_char_in_string(t_variable *c, t_variable *str)
-{
-	t_variable	*res = new_var(CHAR);
-	if (!(*res->val = (char*)malloc(sizeof(char))))
-		malloc_error();
-	*res->val = char_in_string(*((char*)c->val), ((t_string*)str->val)->chars, ((t_string*)str->val)->len);
-	return (res_var);
-}
-
-char	char_in_string(char c, char *str, long str_len)
-{
-	long	i;
-
-	i = 0;
-	while (i < str_len)
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
 }

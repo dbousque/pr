@@ -11,3 +11,12 @@ t_variable	*new_var(char type)
 	var->type = type;
 	return (var);
 }
+
+t_variable	*new_var_from_string(t_string *string)
+{
+	t_variable	*var;
+
+	var = new_var(STRING);
+	var->val = string;
+	return (var);
+}

@@ -17,8 +17,9 @@ typedef struct	s_variable
 	void		*val;
 }				t_variable;
 
-t_variable		*new_var(char type);
+# include "language.h"
 
-# include "langage.h"
+t_variable		*new_var(char type);
+t_variable		*new_var_from_string(t_string *string);
 
 #endif

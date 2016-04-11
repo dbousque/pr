@@ -5,6 +5,10 @@
 
 # include "translator.h"
 
+
+# define READING_BUF_SIZE 1024
+
+
 t_string	*read_file_fast(char *filename);
 
 #endif

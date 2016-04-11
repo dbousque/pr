@@ -1,5 +1,6 @@
 string = "lol"
 
-
+string = 12
 
 print string
+print "salut"

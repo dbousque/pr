@@ -123,3 +123,17 @@ t_string	*cpy_string(t_string *string)
 	}
 	return (res);
 }
+
+
+void	empty_string(t_string *string)
+{
+	string->len = 0;
+}
+
+
+void	free_string(t_string *string)
+{
+	if (string->freeable)
+		free(string->chars);
+	free(string);
+}

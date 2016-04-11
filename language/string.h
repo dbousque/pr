@@ -3,7 +3,7 @@
 #ifndef STRING_H
 # define STRING_H
 
-# include "langage.h"
+# include "language.h"
 
 typedef struct	s_string
 {
@@ -31,5 +31,9 @@ void			set_string_chars(t_string *string, char *chars, long len);
 
 t_variable		*_cpy_string(t_string *string);
 t_string		*cpy_string(t_string *string);
+
+void			empty_string(t_string *string);
+
+void			free_string(t_string *string);
 
 #endif

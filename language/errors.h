@@ -3,7 +3,7 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-# include "langage.h"
+# include "language.h"
 
 void	malloc_error(void);
 

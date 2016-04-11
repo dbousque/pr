@@ -1,6 +1,6 @@
 
 
-#include "chars_utils.h"
+#include "utils.h"
 
 long	ft_strlen(char *str)
 {
