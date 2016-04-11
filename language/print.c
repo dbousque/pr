@@ -12,6 +12,10 @@ void	printn(t_variable *var)
 		print_char(var);
 	else if (var->type == INT)
 		print_int(var);
+	else
+	{
+		write(1, "NOT FOUND\n", 10);
+	}
 }
 
 void	print(t_variable *var)

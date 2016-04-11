@@ -20,3 +20,12 @@ t_variable	*new_var_from_string(t_string *string)
 	var->val = string;
 	return (var);
 }
+
+t_variable	*new_var_from_list(t_linked_list *list)
+{
+	t_variable	*var;
+
+	var = new_var(LINKED_LIST);
+	var->val = list;
+	return (var);
+}

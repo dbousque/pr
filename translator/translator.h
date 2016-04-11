@@ -12,5 +12,6 @@
 # include "translate_errors.h"
 # include "read_source.h"
 # include "instructions_to_code.h"
+# include "resolve_and_interpret.h"
 
 #endif

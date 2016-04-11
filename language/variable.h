@@ -21,5 +21,6 @@ typedef struct	s_variable
 
 t_variable		*new_var(char type);
 t_variable		*new_var_from_string(t_string *string);
+t_variable		*new_var_from_list(t_linked_list *list);
 
 #endif

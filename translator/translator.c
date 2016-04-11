@@ -21,7 +21,14 @@ void	compile_output(t_string *filename)
 void	interpret_word(t_linked_list *current_line_instructions, t_linked_list *current_line_strings,
 														t_linked_list *known_vars, t_string *tmp_word)
 {
-	if (string_in_chartab(tmp_word, STR_KEYWORDS, NB_KEYWORDS))
+//else if (char_in_string(tmp_word->chars[0], STR_SEPARATOR_SYMBOLS, ft_strlen(STR_SEPARATOR_SYMBOLS)))
+//		add_to_list(current_line_instructions, _new_char(SEPARATOR_SYMBOL));
+
+	if (tmp_word->chars[0] == STR_OPEN_PARENTHESE)
+		add_to_list(current_line_instructions, _new_char(OPEN_PARENTHESE));
+	else if (tmp_word->chars[0] == STR_CLOSE_PARENTHESE)
+		add_to_list(current_line_instructions, _new_char(CLOSE_PARENTHESE));
+	else if (string_in_chartab(tmp_word, STR_KEYWORDS, NB_KEYWORDS))
 		add_to_list(current_line_instructions, _new_char(KEYWORD));
 	else if (equals_chars(tmp_word->chars, STR_EQUALS, tmp_word->len, ft_strlen(STR_EQUALS)))
 		add_to_list(current_line_instructions, _new_char(EQUALS));
@@ -31,8 +38,6 @@ void	interpret_word(t_linked_list *current_line_instructions, t_linked_list *cur
 		add_to_list(current_line_instructions, _new_char(CPY_CHAR));
 	else if (char_in_string(tmp_word->chars[0], STR_OPERATION_SYMBOLS, ft_strlen(STR_OPERATION_SYMBOLS)))
 		add_to_list(current_line_instructions, _new_char(OPERATION_SYMBOL));
-	else if (char_in_string(tmp_word->chars[0], STR_SEPARATOR_SYMBOLS, ft_strlen(STR_SEPARATOR_SYMBOLS)))
-		add_to_list(current_line_instructions, _new_char(SEPARATOR_SYMBOL));
 	else
 	{
 		// Can be a function, a variable or a value
@@ -62,12 +67,16 @@ void	interpret_lines(int fd, t_linked_list *lines)
 	t_linked_list	*current_line_instructions;
 	t_linked_list	*current_line_strings;
 	t_linked_list	*known_vars;
+	t_linked_list	*instructions;
+	t_linked_list	*strings;
 	int				line_nb;
 	int				char_nb;
 	t_string		*tmp_line;
 	t_string		*tmp_word;
 	char			tmp_char;
 
+	instructions = new_list();
+	strings = new_list();
 	known_vars = new_list();
 	line_nb = 0;
 	while (line_nb < lines->len)
@@ -85,8 +94,23 @@ void	interpret_lines(int fd, t_linked_list *lines)
 				char_nb++;
 				tmp_char = tmp_line->chars[char_nb];
 			}
+			if (tmp_char == STR_OPEN_PARENTHESE || tmp_char == STR_CLOSE_PARENTHESE)
+			{
+				interpret_word(current_line_instructions, current_line_strings, known_vars, tmp_word);
+				tmp_word = new_string();
+				add_char_to_string(tmp_word, tmp_char);
+				interpret_word(current_line_instructions, current_line_strings, known_vars, tmp_word);
+				tmp_word = new_string();
+				char_nb++;
+				tmp_char = tmp_line->chars[char_nb];
+			}
 			while (char_nb < tmp_line->len && !char_in_string(tmp_char, IGNORE, ft_strlen(IGNORE)))
 			{
+				if (tmp_char == STR_OPEN_PARENTHESE || tmp_char == STR_CLOSE_PARENTHESE)
+				{
+					char_nb--;
+					break;
+				}
 				add_char_to_string(tmp_word, tmp_char);
 				char_nb++;
 				tmp_char = tmp_line->chars[char_nb];
@@ -94,13 +118,15 @@ void	interpret_lines(int fd, t_linked_list *lines)
 			interpret_word(current_line_instructions, current_line_strings, known_vars, tmp_word);
 			char_nb++;
 		}
-		instructions_to_code(current_line_instructions, current_line_strings, fd);
-		write(fd, "\n", 1);
+		//instructions_to_code(current_line_instructions, current_line_strings, fd);
+		//write(fd, "\n", 1);
+		add_to_list(instructions, new_var_from_list(current_line_instructions));
+		add_to_list(strings, new_var_from_list(current_line_strings));
 		line_nb++;
 	}
-	//print_linked_list_nl(current_line_instructions);
-	//print_linked_list_nl(current_line_strings);
-	//print_linked_list_nl(known_vars);
+	(void)fd;
+	//print_linked_list_nl(strings);
+	resolve_and_interpret(instructions, strings);
 }
 
 int		write_start_and_get_fd(t_string *res_filename)
@@ -142,13 +168,13 @@ void	translate_file(t_string *filename)
 	while (i < lines->len)
 	{
 		//print_chars("new line.");
-		print_string_nl((t_string*)lines->elts[i]);
+		//print_string_nl((t_string*)lines->elts[i]);
 		i++;
 	}
 	fd = write_start_and_get_fd(filename);
 	interpret_lines(fd, lines);
 	write_end_of_file(fd);
-	compile_output(filename);
+	//compile_output(filename);
 }
 
 int		main(int argc, char **argv)

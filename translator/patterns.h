@@ -9,7 +9,9 @@
 #define STR_EQUALITY_CHECK		"=="
 #define STR_CPY_CHAR			":"
 #define STR_OPERATION_SYMBOLS	"+-/*"
-#define STR_SEPARATOR_SYMBOLS	"({)},"
+#define STR_OPEN_PARENTHESE		'('
+#define STR_CLOSE_PARENTHESE	')'
+//#define STR_SEPARATOR_SYMBOLS	"({)},"
 #define STR_STRING_DELIMIT		"\"'"
 #define STR_NUMBER				"0123456789"
 #define STR_FUNCTION_DECL		"def"
@@ -29,10 +31,12 @@ char	*STR_BUILTIN_FUNCTIONS[NB_BUILTIN_FUNCTIONS];
 #define EQUALITY_CHECK			7
 #define CPY_CHAR				8
 #define OPERATION_SYMBOL		9
-#define SEPARATOR_SYMBOL		10
-#define STRING_DELIMIT			11
-#define FUNCTION_DECL			12
-#define VALUE					13
+#define OPEN_PARENTHESE			10
+#define CLOSE_PARENTHESE		11
+//#define SEPARATOR_SYMBOL		10
+#define STRING_DELIMIT			12
+#define FUNCTION_DECL			13
+#define VALUE					14
 
 
 char	NEW_INSTANTIATION[2];
