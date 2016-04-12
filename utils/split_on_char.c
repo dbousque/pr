@@ -64,7 +64,7 @@ char	**split_on_char(char *string, long string_len, char to_split)
 			ft_putstr("Could not allocate memory\n");
 			exit(1);
 		}
-		res[tmp_len] = '\0';
+		res[i][tmp_len] = '\0';
 		x -= tmp_len;
 		tmp_len = 0;
 		while (string[x] != to_split && x < string_len)
