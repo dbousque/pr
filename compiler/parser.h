@@ -5,9 +5,12 @@
 
 # include "compiler.h"
 
-# define SPLIT_N_IGNORE		" \r\f"
-# define SPLIT_N_KEEP		",:\t=()[]{}"
+// special treatment for point because of 4.3 vs. myClass.method()
+# define POINT_CHAR			'.'
+# define SPLIT_N_IGNORE		" \t"
+# define SPLIT_N_KEEP		",:=()[]{}"
 
-void	parse(char *file_content, long file_len);
+t_linked_list	*parse(char *file_content, long file_len);
+void			print_splitted_lines(t_linked_list *lines);
 
 #endif

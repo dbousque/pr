@@ -1,17 +1,9 @@
 
 
-import strings
-
-class MyClass:
-	private i = 0
-	public x = 1
-	y = 1
-
-def first_function(arg1, arg2, arg3):
-	return (arg1)
+def second_function(arg)
+	return (arg)
 
 def first_function(first_arg, second_arg):
-	print(MyClass.method())
 	un_argument=" -> \"salut\"  "
     un_deuxieme=2
 	un_trois= 4.3
@@ -20,10 +12,11 @@ def first_function(first_arg, second_arg):
 	un_six =:un_cinq
 	un_sept = un_argument[  1  	]
 	un_huit ::= un_sept
-	var1 = first_function( un_argument , un_deuxieme,un_trois) 	
+	var1 = first_function( un_argument , second_function(un_deuxieme),un_trois) 	
 	print(var1)
 	for elt 	in  var1  :
 		if elt == "salut":
+			print(elt)
 		print(elt)
 
 first_function(1, 2)
