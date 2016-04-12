@@ -8,7 +8,9 @@ char	*interpret_string(char *string)
 
 	if (!(res = (char*)malloc(sizeof(char))))
 		malloc_error();
+
 	if (ft_strcmp(string, FUNCTION_DECL))
+		*res = 
 }
 
 t_linked_list	*make_abstraction_layer(t_linked_list *splitted_lines)
