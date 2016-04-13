@@ -16,5 +16,6 @@ typedef struct	s_linked_list t_linked_list;
 # include "linked_list.h"
 # include "parser.h"
 # include "abstraction_layer.h"
+# include "resolve_layer.h"
 
 #endif

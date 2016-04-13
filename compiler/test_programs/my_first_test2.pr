@@ -1,6 +1,6 @@
 
 
-def second_function(arg)
+def second_function(arg):
 	return (arg)
 
 def first_function(first_arg, second_arg):
