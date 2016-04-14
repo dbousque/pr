@@ -18,7 +18,7 @@ void	parse_n_compile_file(char *filename)
 	file_content = read_file_fast(filename, &file_len);
 	splitted_lines = parse(file_content, file_len);
 	abstraction_layer = make_abstraction_layer(splitted_lines);
-	resolved_layer = resolve_layer(abstraction_layer);
+	resolved_layer = resolve_layer(abstraction_layer, splitted_lines);
 	(void)file_content;
 	(void)splitted_lines;
 }

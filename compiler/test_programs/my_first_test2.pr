@@ -12,11 +12,12 @@ def first_function(first_arg, second_arg):
 	un_six =:un_cinq
 	un_sept = un_argument[  1  	]
 	un_huit ::= un_sept
-	var1 = first_function( un_argument , second_function(un_deuxieme),un_trois) 	
+	var1 = first_function( un_argument , second_function(un_deuxieme),un_trois)
 	print(var1)
 	for elt 	in  var1  :
 		if elt == "salut":
 			print(elt)
 		print(elt)
 
-first_function(1, 2)
+def main():
+	first_function(1, 2)

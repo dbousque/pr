@@ -5,6 +5,6 @@
 
 # include "compiler.h"
 
-t_linked_list	*resolve_layer(t_linked_list *abstracted_layer);
+t_linked_list	*resolve_layer(t_linked_list *abstracted_layer, t_linked_list *splitted_strings);
 
 #endif
