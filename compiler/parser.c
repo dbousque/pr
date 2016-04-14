@@ -27,6 +27,25 @@ int		handle_start_chars(char *line, t_linked_list *res, char car)
 	return (i);
 }
 
+char	is_escaped_quote(char *line, int i)
+{
+	int		nb_escaped;
+
+	nb_escaped = 0;
+	i--;
+	while (i >= 0)
+	{
+		if (line[i] == '\\')
+			nb_escaped++;
+		else
+			break ;
+		i--;
+	}
+	if (nb_escaped % 2 == 1)
+		return (1);
+	return (0);
+}
+
 int		handle_quote(t_linked_list *res, char *line, int i, char quote)
 {
 	int				tmp;
@@ -45,11 +64,8 @@ int		handle_quote(t_linked_list *res, char *line, int i, char quote)
 	tmp = i;
 	//i++ to skip the fist "
 	i++;
-	while (line[i] && (line[i] != quote || (line[i - 1] == '\\' && (i < 2 || line[i - 2] != '\\'))))
-	{
-		//ft_putstr("la\n");
+	while (line[i] && (line[i] != quote || is_escaped_quote(line, i)))
 		i++;
-	}
 	// end of line without closing "
 	if (!line[i])
 	{

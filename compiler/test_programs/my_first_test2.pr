@@ -5,7 +5,7 @@ def second_function(arg):
 
 def first_function(first_arg, second_arg):
 	un_argument=" -> \"salut\"  "
-    un_deuxieme=2
+	un_deuxieme=2
 	un_trois= 4.3
 	un_quatr = 'A'
 	un_cinq = 65

@@ -21,6 +21,7 @@ void	parse_n_compile_file(char *filename)
 	resolved_layer = resolve_layer(abstraction_layer, splitted_lines);
 	(void)file_content;
 	(void)splitted_lines;
+	(void)resolved_layer;
 }
 
 int		main(int argc, char **argv)

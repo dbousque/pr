@@ -13,7 +13,6 @@ typedef struct	s_linked_list
 }				t_linked_list;
 
 t_linked_list	*new_list(void);
-static void		double_list_size(t_linked_list *list);
 void			add_to_list(t_linked_list *list, void *elt);
 
 #endif

@@ -1,0 +1,10 @@
+
+
+#ifndef BUILTIN_FUNCTIONS
+# define BUILTIN_FUNCTIONS
+
+# define NB_BUILTIN_FUNCS 1
+
+char	*BUILTIN_FUNCS[NB_BUILTIN_FUNCS];
+
+#endif
