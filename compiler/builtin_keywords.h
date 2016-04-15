@@ -1,0 +1,10 @@
+
+
+#ifndef BUILTIN_KEYWORDS
+# define BUILTIN_KEYWORDS
+
+# define NB_KEYWORDS 4
+
+char  *KEYWORDS[NB_KEYWORDS];
+
+#endif

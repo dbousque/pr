@@ -12,13 +12,15 @@ void	parse_n_compile_file(char *filename)
 	char			*file_content;
 	long			file_len;
 	t_linked_list	*splitted_lines;
-	t_linked_list	*abstraction_layer;
+	t_linked_list	*abstracted_layer;
 	t_linked_list	*resolved_layer;
 
 	file_content = read_file_fast(filename, &file_len);
 	splitted_lines = parse(file_content, file_len);
-	abstraction_layer = make_abstraction_layer(splitted_lines);
-	resolved_layer = resolve_layer(abstraction_layer, splitted_lines);
+	abstracted_layer = make_abstraction_layer(splitted_lines);
+	check_indentation(abstracted_layer);
+	check_parentheses_and_brackets_close(abstracted_layer);
+	resolved_layer = resolve_layer(abstracted_layer, splitted_lines);
 	(void)file_content;
 	(void)splitted_lines;
 	(void)resolved_layer;

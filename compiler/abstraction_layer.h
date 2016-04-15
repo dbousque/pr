@@ -34,6 +34,9 @@
 # define TAB					13
 # define NAME					14
 
+# define FUNCTION_NAME          15
+# define KEYWORD      16
+
 t_linked_list	*make_abstraction_layer(t_linked_list *splitted_lines);
 
 #endif
