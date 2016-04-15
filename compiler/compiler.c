@@ -14,6 +14,8 @@ void	parse_n_compile_file(char *filename)
 	t_linked_list	*splitted_lines;
 	t_linked_list	*abstracted_layer;
 	t_linked_list	*resolved_layer;
+	t_linked_list	*functions;
+	t_linked_list	*code_functions;
 
 	file_content = read_file_fast(filename, &file_len);
 	splitted_lines = parse(file_content, file_len);
@@ -21,9 +23,13 @@ void	parse_n_compile_file(char *filename)
 	check_indentation(abstracted_layer);
 	check_parentheses_and_brackets_close(abstracted_layer);
 	resolved_layer = resolve_layer(abstracted_layer, splitted_lines);
+	functions = cut_into_functions(resolved_layer);
+	code_functions = functions_to_c_code(functions);
+	(void)functions;
 	(void)file_content;
 	(void)splitted_lines;
 	(void)resolved_layer;
+	(void)code_functions;
 }
 
 int		main(int argc, char **argv)

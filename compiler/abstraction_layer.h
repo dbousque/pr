@@ -34,8 +34,13 @@
 # define TAB					13
 # define NAME					14
 
-# define FUNCTION_NAME          15
-# define KEYWORD      16
+# define FUNCTION_NAME			15
+# define KEYWORD				16
+# define INDENT					17
+# define STRING_DEF				18
+# define CHARACTER_DEF			19
+# define INTEGER_DEF			20
+# define FLOAT_DEF				21
 
 t_linked_list	*make_abstraction_layer(t_linked_list *splitted_lines);
 

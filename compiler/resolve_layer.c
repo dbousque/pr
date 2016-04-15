@@ -47,6 +47,16 @@ void	print_resolved_layer(t_linked_list *layer)
 				ft_putstr("FUNCTION_NAME");
 			else if (*((char*)tmp_line->elts[x]) == KEYWORD)
 				ft_putstr("KEYWORD");
+			else if (*((char*)tmp_line->elts[x]) == INDENT)
+				ft_putstr("INDENT");
+			else if (*((char*)tmp_line->elts[x]) == STRING_DEF)
+				ft_putstr("STRING_DEF");
+			else if (*((char*)tmp_line->elts[x]) == CHARACTER_DEF)
+				ft_putstr("CHARACTER_DEF");
+			else if (*((char*)tmp_line->elts[x]) == INTEGER_DEF)
+				ft_putstr("INTEGER_DEF");
+			else if (*((char*)tmp_line->elts[x]) == FLOAT_DEF)
+				ft_putstr("FLOAT_DEF");
 			else
 			{
 				ft_putstr("\n\nUNKNOWN TYPE !\n");
@@ -146,6 +156,122 @@ char	string_in_list(char *string, t_linked_list *list)
 	return (0);
 }
 
+t_linked_list	*normalize_indentation(t_linked_list *resolved_layer, t_linked_list **strings)
+{
+	int				i;
+	int				x;
+	int				y;
+	t_linked_list	*tmp_line;
+	t_linked_list	*normalized;
+	t_linked_list	*tmp_normalized;
+	t_linked_list	*new_strings;
+	t_linked_list	*tmp_strings;
+	char			char_nb;
+	char			*tmp_char;
+
+	new_strings = new_list();
+	normalized = new_list();
+	char_nb = 0;
+	i = 0;
+	while (i < resolved_layer->len)
+	{
+		tmp_normalized = new_list();
+		tmp_strings = new_list();
+		tmp_line = ((t_linked_list*)resolved_layer->elts[i]);
+		x = 0;
+		while (x < tmp_line->len && (*((char*)tmp_line->elts[x]) == TAB || *((char*)tmp_line->elts[x]) == SPACE))
+			x++;
+		if (x != 0 && char_nb == 0)
+			char_nb = x;
+		y = 0;
+		while (char_nb > 0 && y < x / char_nb)
+		{
+			if (!(tmp_char = (char*)malloc(sizeof(char))))
+				malloc_error();
+			*tmp_char = INDENT;
+			add_to_list(tmp_normalized, tmp_char);
+			add_to_list(tmp_strings, ft_strdup("\t"));
+			y++;
+		}
+		while (x < tmp_line->len)
+		{
+			if (!(tmp_char = (char*)malloc(sizeof(char))))
+				malloc_error();
+			*tmp_char = *((char*)tmp_line->elts[x]);
+			add_to_list(tmp_normalized, tmp_char);
+			add_to_list(tmp_strings, ((char*)((t_linked_list*)(*strings)->elts[i])->elts[x]));
+			x++;
+		}
+		add_to_list(normalized, tmp_normalized);
+		add_to_list(new_strings, tmp_strings);
+		i++;
+	}
+	*strings = new_strings;
+	return (normalized);
+}
+
+char	string_is_string(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	if (str[0] == '"' && str[i - 1] == '"')
+		return (1);
+	return (0);
+}
+
+char	string_is_character(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	if (str[0] == '\'' && str[i - 1] == '\'')
+		return (1);
+	return (0);
+}
+
+char	string_is_integer(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	string_is_float(char *str)
+{
+	int		i;
+	char	point_seen;
+
+	point_seen = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+			if (point_seen)
+				return (0);
+			point_seen = 1;
+		}
+		else if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	if (str[i - 1] == '.')
+		return (0);
+	return (1);
+}
+
 t_linked_list	*resolve_line(t_linked_list *line, t_linked_list *declared_functions,
 							t_linked_list *splitted_strings_line, t_linked_list *builtin_keywords)
 {
@@ -176,6 +302,14 @@ t_linked_list	*resolve_line(t_linked_list *line, t_linked_list *declared_functio
 				*to_add = FUNCTION_NAME;
 			else if (string_in_list(splitted_strings_line->elts[i], builtin_keywords))
 				*to_add = KEYWORD;
+			else if (string_is_string(splitted_strings_line->elts[i]))
+				*to_add = STRING_DEF;
+			else if (string_is_character(splitted_strings_line->elts[i]))
+				*to_add = CHARACTER_DEF;
+			else if (string_is_integer(splitted_strings_line->elts[i]))
+				*to_add = INTEGER_DEF;
+			else if (string_is_float(splitted_strings_line->elts[i]))
+				*to_add = FLOAT_DEF;
 		}
 		add_to_list(resolved_line, to_add);
 		i++;
@@ -202,6 +336,8 @@ t_linked_list	*resolve_layer(t_linked_list *abstracted_layer, t_linked_list *spl
 							((t_linked_list*)splitted_strings->elts[i]), builtin_keywords));
 		i++;
 	}
+	res = normalize_indentation(res, &splitted_strings);
 	print_resolved_layer(res);
-	return (abstracted_layer);
+	print_splitted_lines(splitted_strings);
+	return (res);
 }

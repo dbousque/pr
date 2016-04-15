@@ -19,6 +19,8 @@ typedef struct	s_linked_list t_linked_list;
 # include "resolve_layer.h"
 # include "builtin_functions.h"
 # include "builtin_keywords.h"
+# include "cut_into_functions.h"
+# include "functions_to_c_code.h"
 
 void      check_indentation(t_linked_list *abstracted_layer);
 void      check_parentheses_and_brackets_close(t_linked_list *abstracted_layer);
