@@ -2,6 +2,20 @@
 
 #include "abstraction_layer.h"
 
+char	char_in_str(char c, char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 char	*interpret_string(char *string)
 {
 	char	*res;
@@ -34,6 +48,8 @@ char	*interpret_string(char *string)
 		*res = SPACE;
 	else if (ft_strcmp(string, STR_TAB) == 0)
 		*res = TAB;
+	else if (char_in_str(string[0], STR_OPERATION))
+		*res = OPERATION;
 	else
 		*res = NAME;
 	return (res);
@@ -80,6 +96,8 @@ void	print_layer(t_linked_list *layer)
 				ft_putstr("TAB");
 			else if (*((char*)tmp_line->elts[x]) == NAME)
 				ft_putstr("NAME");
+			else if (*((char*)tmp_line->elts[x]) == OPERATION)
+				ft_putstr("OPERATION");
 			else
 			{
 				ft_putstr("\n\nUNKNOWN TYPE !\n");

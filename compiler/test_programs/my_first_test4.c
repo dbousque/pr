@@ -2,20 +2,10 @@
 
 #include "../../language/language.h"
 
-void		__my_function(t_variable *arg)
-{
-	t_variable	*arg2;
-
-¿—ÿ
-“ÿ
- ”ÿ
-}
-
-
 void		__main(t_variable *args)
 {
 
-†÷ÿ
+ Éı
 }
 
 
@@ -25,5 +15,5 @@ int		main(int argc, char **argv)
 
 	args = _args_from_c_args(argc, argv);
 	__main(args);
-});
+	return (0);
 }

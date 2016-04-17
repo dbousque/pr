@@ -67,6 +67,8 @@ void	print_resolved_layer(t_linked_list *layer)
 				ft_putstr("COPY");
 			else if (*((char*)tmp_line->elts[x]) == COPY_EQUAL)
 				ft_putstr("COPY_EQUAL");
+			else if (*((char*)tmp_line->elts[x]) == OPERATION)
+				ft_putstr("OPERATION");
 			else if (*((char*)tmp_line->elts[x]) == VAR_NAME)
 				ft_putstr("VAR_NAME");
 			else

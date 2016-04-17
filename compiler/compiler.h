@@ -4,6 +4,7 @@
 # define COMPILER_H
 
 typedef struct	s_linked_list t_linked_list;
+typedef struct	s_tree t_tree;
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,6 +22,8 @@ typedef struct	s_linked_list t_linked_list;
 # include "builtin_keywords.h"
 # include "cut_into_functions.h"
 # include "functions_to_c_code.h"
+# include "resolve_part.h"
+//# include "syntax_tree.h"
 
 void      check_indentation(t_linked_list *abstracted_layer);
 void      check_parentheses_and_brackets_close(t_linked_list *abstracted_layer);

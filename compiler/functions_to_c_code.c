@@ -230,11 +230,6 @@ char	*string_from_char_with_indent(int indentation, char c)
 	return (str);
 }
 
-char	*resolve_part(t_linked_list *line, t_linked_list *line_strings, int start)
-{
-	
-}
-
 char	line_is_assignment(t_linked_list *tmp_line)
 {
 	int		i;
@@ -267,7 +262,28 @@ void	handle_assignment(t_linked_list *tmp_line, t_linked_list *tmp_line_strings,
 	add_to_list(string, (char*)tmp_line_strings->elts[i]);
 	add_to_list(string, ft_strdup(" = "));
 	i += 2;
-	add_to_list(string, resolve_part(tmp_line, tmp_line_strings, i));
+	add_to_list(string, resolve_part(tmp_line, tmp_line_strings, i, tmp_line->len));
+	add_to_list(string, ft_strdup(";"));
+	add_to_list(code, string);
+}
+
+void	handle_line(t_linked_list *tmp_line, t_linked_list *tmp_line_strings,
+											t_linked_list *code, int current_indent)
+{
+	int				i;
+	t_linked_list	*string;
+
+	string = new_list();
+	i = 0;
+	while (i < current_indent)
+	{
+		add_to_list(string, ft_strdup("\t"));
+		i++;
+	}
+	i = 0;
+	while (i < tmp_line->len && *((char*)tmp_line->elts[i]) == INDENT)
+		i++;
+	add_to_list(string, resolve_part(tmp_line, tmp_line_strings, i, tmp_line->len));
 	add_to_list(string, ft_strdup(";"));
 	add_to_list(code, string);
 }
@@ -301,6 +317,8 @@ char	*function_to_c_code(t_linked_list *function, t_linked_list *func_strings)
 		tmp_line_strings = ((t_linked_list*)func_strings->elts[i]);
 		if (line_is_assignment(tmp_line))
 			handle_assignment(tmp_line, tmp_line_strings, code, current_indent);
+		else
+			handle_line(tmp_line, tmp_line_strings, code, current_indent);
 		i++;
 	}
 	add_to_list(code, string_from_char_with_indent(current_indent, '}'));
