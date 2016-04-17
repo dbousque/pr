@@ -5,6 +5,6 @@
 
 #include "compiler.h"
 
-t_linked_list	*cut_into_functions(t_linked_list *resolved_layer);
+t_linked_list	*cut_into_functions(t_linked_list *resolved_layer, t_linked_list **strings);
 
 #endif

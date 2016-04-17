@@ -5,6 +5,6 @@
 
 # include "compiler.h"
 
-t_linked_list	*functions_to_c_code(t_linked_list *functions);
+t_linked_list	*functions_to_c_code(t_linked_list *functions, t_linked_list *strings);
 
 #endif

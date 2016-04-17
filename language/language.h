@@ -25,5 +25,6 @@ typedef struct	s_string t_string;
 # include "print.h"
 # include "equals.h"
 # include "keyword_in.h"
+# include "args_from_c_args.h"
 
 #endif

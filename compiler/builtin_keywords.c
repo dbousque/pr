@@ -6,5 +6,6 @@ char  *KEYWORDS[] = {
                         "for",
                         "while",
                         "in",
-                        "if"
+                        "if",
+                        "return"
 };

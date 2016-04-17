@@ -1,0 +1,9 @@
+
+
+def my_function(arg):
+	arg2 = 13
+	print(arg)
+	print(arg2)
+
+def main(args):
+	my_function(args[0])

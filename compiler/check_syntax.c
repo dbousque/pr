@@ -69,6 +69,8 @@ void	check_indentation(t_linked_list *abstracted_layer)
 	}
 }
 
+// We could do better, keep opened items on a stack and verify that what is closed matches the top
+// of the stack (then pop), and check that there are no more elements on the stack in the end
 void	check_parentheses_and_brackets_close(t_linked_list *abstracted_layer)
 {
 	int				x;
@@ -107,29 +109,29 @@ void	check_parentheses_and_brackets_close(t_linked_list *abstracted_layer)
 			}
 			else if (*((char*)line->elts[x]) == CLOSE_PAR)
 			{
-				if (last_open != OPEN_PAR)
+				/*if (last_open != OPEN_PAR)
 				{
 					ft_putstr("Parenthese closed before it should be\n");
 					exit(1);
-				}
+				}*/
 				count1--;
 			}
 			else if (*((char*)line->elts[x]) == CLOSE_BRACKET)
 			{
-				if (last_open != OPEN_BRACKET)
+				/*if (last_open != OPEN_BRACKET)
 				{
 					ft_putstr("Bracket closed before it should be\n");
 					exit(1);
-				}
+				}*/
 				count2--;
 			}
 			else if (*((char*)line->elts[x]) == CLOSE_CURL_BRAC)
 			{
-				if (last_open != OPEN_CURL_BRAC)
+				/*if (last_open != OPEN_CURL_BRAC)
 				{
 					ft_putstr("Curly bracket closed before it should be\n");
 					exit(1);
-				}
+				}*/
 				count3--;
 			}
 			if (count1 < 0)
@@ -166,4 +168,5 @@ void	check_parentheses_and_brackets_close(t_linked_list *abstracted_layer)
 		}
 		i++;
 	}
+	(void)last_open;
 }

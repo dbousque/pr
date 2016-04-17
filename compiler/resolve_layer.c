@@ -57,6 +57,18 @@ void	print_resolved_layer(t_linked_list *layer)
 				ft_putstr("INTEGER_DEF");
 			else if (*((char*)tmp_line->elts[x]) == FLOAT_DEF)
 				ft_putstr("FLOAT_DEF");
+			else if (*((char*)tmp_line->elts[x]) == DEEPCOPY_EQUAL)
+				ft_putstr("DEEPCOPY_EQUAL");
+			else if (*((char*)tmp_line->elts[x]) == EQUALITY_CHECK)
+				ft_putstr("EQUALITY_CHECK");
+			else if (*((char*)tmp_line->elts[x]) == DEEPCOPY)
+				ft_putstr("DEEPCOPY");
+			else if (*((char*)tmp_line->elts[x]) == COPY)
+				ft_putstr("COPY");
+			else if (*((char*)tmp_line->elts[x]) == COPY_EQUAL)
+				ft_putstr("COPY_EQUAL");
+			else if (*((char*)tmp_line->elts[x]) == VAR_NAME)
+				ft_putstr("VAR_NAME");
 			else
 			{
 				ft_putstr("\n\nUNKNOWN TYPE !\n");
@@ -273,12 +285,15 @@ char	string_is_float(char *str)
 }
 
 t_linked_list	*resolve_line(t_linked_list *line, t_linked_list *declared_functions,
-							t_linked_list *splitted_strings_line, t_linked_list *builtin_keywords)
+							t_linked_list **splitted_strings_line, t_linked_list *builtin_keywords)
 {
 	int 			i;
 	t_linked_list	*resolved_line;
 	char			*to_add;
+	char			*tmp_string;
+	t_linked_list	*new_line_strings;
 
+	new_line_strings = new_list();
 	resolved_line = new_list();
 	i = 0;
 	while (i < line->len && (*((char*)line->elts[i]) == TAB || *((char*)line->elts[i]) == SPACE))
@@ -287,6 +302,7 @@ t_linked_list	*resolve_line(t_linked_list *line, t_linked_list *declared_functio
 			malloc_error();
 		*to_add = *((char*)line->elts[i]);
 		add_to_list(resolved_line, to_add);
+		add_to_list(new_line_strings, ft_strdup("\t"));
 		i++;
 	}
 	while (i < line->len)
@@ -294,26 +310,61 @@ t_linked_list	*resolve_line(t_linked_list *line, t_linked_list *declared_functio
 		if (!(to_add = (char*)malloc(sizeof(char))))
 			malloc_error();
 		*to_add = *((char*)line->elts[i]);
+		tmp_string = ((char*)(*splitted_strings_line)->elts[i]);
 		if (*((char*)line->elts[i]) == NAME)
 		{
 			if (i > 0 && *((char*)line->elts[i]) == FUNCTION_DECL)
 				*to_add = FUNCTION_NAME;
-			else if (string_in_list(splitted_strings_line->elts[i], declared_functions))
+			else if (string_in_list((*splitted_strings_line)->elts[i], declared_functions))
 				*to_add = FUNCTION_NAME;
-			else if (string_in_list(splitted_strings_line->elts[i], builtin_keywords))
+			else if (string_in_list((*splitted_strings_line)->elts[i], builtin_keywords))
 				*to_add = KEYWORD;
-			else if (string_is_string(splitted_strings_line->elts[i]))
+			else if (string_is_string((*splitted_strings_line)->elts[i]))
 				*to_add = STRING_DEF;
-			else if (string_is_character(splitted_strings_line->elts[i]))
+			else if (string_is_character((*splitted_strings_line)->elts[i]))
 				*to_add = CHARACTER_DEF;
-			else if (string_is_integer(splitted_strings_line->elts[i]))
+			else if (string_is_integer((*splitted_strings_line)->elts[i]))
 				*to_add = INTEGER_DEF;
-			else if (string_is_float(splitted_strings_line->elts[i]))
+			else if (string_is_float((*splitted_strings_line)->elts[i]))
 				*to_add = FLOAT_DEF;
+			else
+				*to_add = VAR_NAME;
+		}
+		else if (*((char*)line->elts[i]) == EQUAL && i + 1 < line->len && *((char*)line->elts[i + 1]) == EQUAL)
+		{
+			*to_add = EQUALITY_CHECK;
+			tmp_string = ft_strdup("==");
+			i++;
+		}
+		else if (*((char*)line->elts[i]) == COLON && i + 2 < line->len && *((char*)line->elts[i + 1]) == COLON
+																		&& *((char*)line->elts[i + 2]) == EQUAL)
+		{
+			*to_add = DEEPCOPY_EQUAL;
+			tmp_string = ft_strdup("::=");
+			i += 2;
+		}
+		else if (*((char*)line->elts[i]) == COLON && i + 1 < line->len && *((char*)line->elts[i + 1]) == EQUAL)
+		{
+			*to_add = COPY_EQUAL;
+			tmp_string = ft_strdup(":=");
+			i++;
+		}
+		else if (*((char*)line->elts[i]) == COLON && i + 1 < line->len && *((char*)line->elts[i + 1]) == COLON)
+		{
+			*to_add = DEEPCOPY;
+			tmp_string = ft_strdup("::");
+			i++;
+		}
+		else if (*((char*)line->elts[i]) == COLON && i + 1 < line->len)
+		{
+			*to_add = COPY;
+			tmp_string = ft_strdup(":");
 		}
 		add_to_list(resolved_line, to_add);
+		add_to_list(new_line_strings, tmp_string);
 		i++;
 	}
+	*splitted_strings_line = new_line_strings;
 	return (resolved_line);
 }
 
@@ -333,7 +384,7 @@ t_linked_list	*resolve_layer(t_linked_list *abstracted_layer, t_linked_list *spl
 	while (i < abstracted_layer->len)
 	{
 		add_to_list(res, resolve_line(((t_linked_list*)abstracted_layer->elts[i]), declared_functions,
-							((t_linked_list*)splitted_strings->elts[i]), builtin_keywords));
+							((t_linked_list**)splitted_strings->elts + i), builtin_keywords));
 		i++;
 	}
 	res = normalize_indentation(res, &splitted_strings);

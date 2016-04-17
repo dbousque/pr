@@ -12,6 +12,8 @@ void	printn(t_variable *var)
 		print_char(var);
 	else if (var->type == INT)
 		print_int(var);
+	else if (var->type == VOID)
+		write(1, "void", 4);
 	else
 	{
 		write(1, "NOT FOUND\n", 10);

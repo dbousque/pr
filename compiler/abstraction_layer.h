@@ -41,6 +41,12 @@
 # define CHARACTER_DEF			19
 # define INTEGER_DEF			20
 # define FLOAT_DEF				21
+# define EQUALITY_CHECK			22
+# define COPY_EQUAL				23
+# define DEEPCOPY_EQUAL			24
+# define COPY					25
+# define DEEPCOPY				26
+# define VAR_NAME				27
 
 t_linked_list	*make_abstraction_layer(t_linked_list *splitted_lines);
 

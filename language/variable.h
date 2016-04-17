@@ -6,10 +6,9 @@
 # define CHAR 1
 # define STRING 2
 # define INT 3
-# define LONG 4
-# define FLOAT 5
-# define DOUBLE 6
-# define LINKED_LIST 7
+# define FLOAT 4
+# define LINKED_LIST 5
+# define VOID 6
 
 typedef struct	s_variable
 {
