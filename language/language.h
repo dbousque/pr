@@ -26,5 +26,12 @@ typedef struct	s_string t_string;
 # include "equals.h"
 # include "keyword_in.h"
 # include "args_from_c_args.h"
+# include "index.h"
+# include "add.h"
+# include "multiply.h"
+# include "divide.h"
+# include "minus.h"
+# include "is_less.h"
+# include "plus_equal.h"
 
 #endif

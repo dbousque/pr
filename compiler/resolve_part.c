@@ -2,20 +2,10 @@
 
 #include "resolve_part.h"
 
-/*#define TYPE_VALUE 1
-#define TYPE_COMPLEX 2
-
-typedef struct	s_value
+typedef struct	s_line
 {
-	char		type;
-	char		*repr;
-}				t_value;*/
-
-typedef struct	s_expression
-{
-	char		type;
-
-}				t_expression;
+	
+}				t_line;
 
 int		get_end_of_expression(t_linked_list *line, int start)
 {
@@ -61,30 +51,55 @@ char	function_is_builtin(char *string)
 	return (0);
 }
 
+char	*get_c_function_name(char *function_name)
+{
+	int		i;
+
+	i = 0;
+	while (i < NB_BUILTIN_FUNCS)
+	{
+		if (ft_strcmp(function_name, BUILTIN_FUNCS[i]) == 0)
+			return (BUILTIN_FUNCS_IN_C[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*resolve_part(t_linked_list *line, t_linked_list *line_strings, int start, int end)
 {
-	t_linked_list	*strings;
-
-	if (start >= end - 1)
-		return (ft_strdup(""));
-	strings = new_list();
-	if (*((char*)line->elts[start]) == FUNCTION_NAME)
+	FILE			*fp;
+	t_linked_list	*tmp_command;
+	int				i;
+	char			out[100];
+	
+	(void)start;
+	(void)end;
+	tmp_command = new_list();
+	add_to_list(tmp_command, ft_strdup("echo \""));
+	i = 0;
+	while (*((char*)line->elts[i]) == INDENT)
+		i++;
+	while (i < line->len)
 	{
-		if (function_is_builtin((char*)line_strings->elts[start]))
-			add_to_list(strings, ft_strdup("_"));
+		if (*((char*)line->elts[i]) == FUNCTION_NAME)
+		{
+			if (function_is_builtin((char*)line_strings->elts[i]))
+				add_to_list(tmp_command, get_c_function_name((char*)line_strings->elts[i]));
+			else
+			{
+				add_to_list(tmp_command, ft_strdup("__"));
+				add_to_list(tmp_command, (char*)line_strings->elts[i]);
+			}
+		}
 		else
-			add_to_list(strings, ft_strdup("__"));
-		add_to_list(strings, (char*)line_strings->elts[start]);
-		add_to_list(strings, resolve_part(line, line_strings, start + 1, end));
-		add_to_list(strings, ft_strdup(";"));
+			add_to_list(tmp_command, (char*)line_strings->elts[i]);
+		add_to_list(tmp_command, ft_strdup(" "));
+		i++;
 	}
-	else if (*((char*)line->elts[start]) == OPEN_PAR)
-	{
-		add_to_list(strings, ft_strdup("("));
-		// when a parenthese is given to start, we assume end points to the relating closing parenthese, so end - 1
-		add_to_list(strings, resolve_part(line, line_strings, start + 1, end - 1));
-		add_to_list(strings, ft_strdup(")"));
-	}
-	else if (*((char*)line->elts[start]) == )
-	return (list_to_string(strings));
+	add_to_list(tmp_command, ft_strdup(";\" | ./grammar/a.out"));
+	printf("command : %s\n", list_to_string(tmp_command));
+	fp = popen(list_to_string(tmp_command), "r");
+	fgets(out, 100, fp);
+	printf("RESULT : %s\n", out);
+	return (ft_strdup(out));
 }

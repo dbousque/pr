@@ -12,7 +12,7 @@ t_variable	*_args_from_c_args(int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		add_to_list(list, new_string_from_chars(argv[i], ft_strlen(argv[i])));
+		add_to_list(list, _new_string_from_chars(argv[i], ft_strlen(argv[i])));
 		i++;
 	}
 	res = new_var(LINKED_LIST);

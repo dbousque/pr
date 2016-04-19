@@ -1,6 +1,6 @@
 
 
-#include "char.h"
+#include "integer.h"
 
 
 t_variable	*_new_int(int n)

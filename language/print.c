@@ -4,6 +4,8 @@
 
 void	printn(t_variable *var)
 {
+	int		lol;
+
 	if (var->type == LINKED_LIST)
 		print_linked_list(var->val);
 	else if (var->type == STRING)
@@ -13,11 +15,12 @@ void	printn(t_variable *var)
 	else if (var->type == INT)
 		print_int(var);
 	else if (var->type == VOID)
-		write(1, "void", 4);
+		lol = write(1, "void", 4);
 	else
 	{
-		write(1, "NOT FOUND\n", 10);
+		lol = write(1, "NOT FOUND\n", 10);
 	}
+	(void)lol;
 }
 
 void	print(t_variable *var)

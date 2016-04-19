@@ -1,4 +1,9 @@
 
+def calcul(argu, argd, argt):
+	return argu - argd * argt
 
 def main(args):
-	print(args[0])
+	i = 0
+	total = 0
+	total = total + calcul(5, 456, 8)
+	print(total)

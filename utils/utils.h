@@ -13,7 +13,7 @@ int			pos_int_str_len(int n);
 long		ft_atoi_with_size(char *str, long len);
 void		ft_putstr(char *str);
 char		**split_on_char(char *string, long string_len, char to_split);
-char		char_in_string(char c, char *str);
+char		char_in_string2(char c, char *str);
 char		is_number(char c);
 int			ft_strcmp(char *str1, char *str2);
 char		*ft_strdup(char *str);

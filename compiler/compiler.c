@@ -63,7 +63,7 @@ void	write_code_to_res_file(char *filename, t_linked_list *code_functions)
 {
 	int		fd;
 
-	fd = open(filename, O_RDWR | O_CREAT | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0)
 	{
 		ft_putstr("Could not open file for writing\n");

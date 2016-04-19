@@ -2,7 +2,7 @@
 
 #include "utils.h"
 
-char	char_in_string(char c, char *str)
+char	char_in_string2(char c, char *str)
 {
 	int		i;
 

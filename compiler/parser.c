@@ -109,7 +109,7 @@ t_linked_list	*parse_line(char *line)
 	while (1)
 	{
 		tmp = i;
-		while (line[i] && !char_in_string(line[i], SPLIT_N_IGNORE) && !char_in_string(line[i], SPLIT_N_KEEP) && (line[i] != POINT_CHAR || is_number(line[i + 1])))
+		while (line[i] && !char_in_string2(line[i], SPLIT_N_IGNORE) && !char_in_string2(line[i], SPLIT_N_KEEP) && (line[i] != POINT_CHAR || is_number(line[i + 1])))
 		{
 			// special thing for strings and chars with " and '
 			if (line[i] == '"')
@@ -143,16 +143,16 @@ t_linked_list	*parse_line(char *line)
 		// if it wasnt the last character, that means there are \t ;,( ... to split on
 		if (line[i])
 		{
-			if (char_in_string(line[i], SPLIT_N_IGNORE))
+			if (char_in_string2(line[i], SPLIT_N_IGNORE))
 			{
-				while (line[i] && char_in_string(line[i], SPLIT_N_IGNORE))
+				while (line[i] && char_in_string2(line[i], SPLIT_N_IGNORE))
 					i++;
 			}
 			else
 			{
 				//SPLIT_N_KEEP characters
 				tmp = i;
-				while (line[i] && (char_in_string(line[i], SPLIT_N_KEEP) || line[i] == POINT_CHAR))
+				while (line[i] && (char_in_string2(line[i], SPLIT_N_KEEP) || line[i] == POINT_CHAR))
 				{
 					if (!(tmp_str = (char*)malloc(sizeof(char) * 2)))
 						malloc_error();

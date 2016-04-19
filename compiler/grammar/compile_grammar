@@ -1,0 +1,1 @@
+yacc -d test1.y && lex test1.l && gcc y.tab.c lex.yy.c ../linked_list.c ../../utils/*.c tree.c ../errors.c

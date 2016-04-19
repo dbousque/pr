@@ -4,5 +4,8 @@
 
 void	ft_putstr(char *str)
 {
-	write(1, str, ft_strlen(str));
+	int		lol;
+
+	lol = write(1, str, ft_strlen(str));
+	(void)lol;
 }
